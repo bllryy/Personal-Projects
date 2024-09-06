@@ -1,0 +1,3 @@
+# practical
+
+old cpp files I made a while ago...
