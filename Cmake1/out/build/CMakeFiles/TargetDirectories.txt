@@ -1,0 +1,3 @@
+/home/fingo/Desktop/Personal-Projects/Cmake1/out/build/CMakeFiles/NewCmakeProj.dir
+/home/fingo/Desktop/Personal-Projects/Cmake1/out/build/CMakeFiles/edit_cache.dir
+/home/fingo/Desktop/Personal-Projects/Cmake1/out/build/CMakeFiles/rebuild_cache.dir
