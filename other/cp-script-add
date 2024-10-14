@@ -1,0 +1,42 @@
+o y | apt-get --purge remove openssh-server
+echo y | apt-get --purge remove pure-ftpd
+echo y | apt-get --purge remove pure-ftpd-common
+echo y | apt-get --purge remove sambashare
+echo y | apt-get --purge remove ftp
+echo y | apt-get --purge remove samba
+echo y | apt-get --purge remove samba-libs:i83
+echo y | apt-get --purge remove telnet
+echo y | apt-get --purge remove mysql
+echo y | apt-get --purge remove mail
+echo y | apt-get --purge remove print
+echo y | apt-get --purge remove http #does it need a web server
+
+# generally bad software go brr
+echo y | apt-get --purge remove netcat
+echo y | apt-get --purge remove p0f
+echo y | apt-get --purge remove kernel-server
+echo y | apt-get --purge remove iodine
+echo y | apt-get --purge remove bind9
+echo y | apt-get --purge remove nfs-kernel-server
+echo y | apt-get --purge remove wireshark
+echo y | apt-get --purge remove fcrackzip
+echo y | apt-get --purge remove squid
+echo y | apt-get --purge remove icecast
+echo y | apt-get --purge remove icecast2
+echo y | apt-get --purge remove zangband
+echo y | apt-get --purge remove zmap
+echo y | apt-get --purge remove nmapsi4
+echo y | apt-get --purge remove amule
+echo y | apt-get --purge remove mayhem
+echo y | apt-get --purge remove remaiten
+echo y | apt-get --purge remove mirai
+echo y | apt-get --purge remove qbot
+echo y | apt-get --purge remove hydra
+echo y | apt-get --purge remove aidra
+echo y | apt-get --purge remove lightaidra
+echo y | apt-get --purge remove newaidra
+echo y | apt-get --purge remove nmap
+echo y | apt-get --purge remove postfix
+echo y | apt-get --purge remove john
+echo y | apt-get --purge remove ophcrack
+echo y | apt-get --purge remove medusa
