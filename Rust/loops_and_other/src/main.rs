@@ -1,14 +1,42 @@
 fn main() {
-    // 2. While loop
+   // 3. for
+   let arr = [ 2, 3, 5, 3 ];
 
-    let mut i = 0;
-    let mut arr = [ 2, 3, 5, 3];
+   //for somthing in some range {
+    // do somthing
 
-    while i < 10.len() {
-        println!("{}", [i]);
-        i += 1;
+    for a in &arr {
+        println!("{}", a);
     }
-}
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // 2. While loop
+
+// let mut i = 0;
+// let mut arr = [ 2, 3, 5, 3];
+
+// while i < arr.len() {
+//     println!("{}", arr[i]);
+//     i += 1;
+// }
 
 
 
