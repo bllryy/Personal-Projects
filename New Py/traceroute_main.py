@@ -30,7 +30,7 @@ import sys
 
 
 
-def traceroute(destination, max_hops=5, timeout=5):
+def traceroute(destination, max_hops=5, timeout=5, log_file ="traceroute_outfile.txt"):
     #destination = input("Enter the IP address or domain name of the destination: ")
     #traceroute(destination)
 
@@ -41,7 +41,10 @@ def traceroute(destination, max_hops=5, timeout=5):
 
     #get ip
     dest_ip = socket.gethostbyname(destination)
-    print(f"Traceroute to {destination} ({dest_ip}), max {max_hops} hops:")    
+    with open(log_file, "w") as file:
+        start_msg = print(f"Traceroute to {destination} ({dest_ip}), max {max_hops} hops:")    
+        print(start_msg)
+        file.write(start_msg)
 
 
 
