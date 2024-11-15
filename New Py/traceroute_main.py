@@ -30,13 +30,14 @@ import sys
 
 
 
-def tracroute(destination, max_hops=30, timeout=5):
-    destination = input("Enter the IP address or domain name of the destination: ")
-    tracroute(destination)
+def traceroute(destination, max_hops=5, timeout=5):
+    #destination = input("Enter the IP address or domain name of the destination: ")
+    #traceroute(destination)
 
     # hops
     hops = []
     ttl = 5
+    
 
     #get ip
     dest_ip = socket.gethostbyname(destination)
@@ -45,8 +46,6 @@ def tracroute(destination, max_hops=30, timeout=5):
 
 
     while ttl <= max_hops:
-
-
 
         # create send/recieve socket
         recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
@@ -59,9 +58,32 @@ def tracroute(destination, max_hops=30, timeout=5):
         # send packet
         print(f"Sending packet with TTL = {ttl}...")
         start_time = time.time()
-        send_socket.sendto(b'', (dest_ip), 33434) # port is common??????
+        send_socket.sendto(b'', (dest_ip, 33434,)) # port is common??????
+
+
+        # try recieve
+        try:
+            data, addr = recv_socket.recvfrom(512)
+            end_time = time.time()
+            rtt = round((end_time - start_time) * 1000, 2) # rount trip time????
+            print(f"{ttl}\t{addr[0]}\t{rtt} ms")
+            hops.append(addr[0])
+
+            # Check if we reached the destination
+            if addr[0] == dest_ip:
+                print("Reached destination...")
+                break
+
+        except socket.timeout:
+            print(f"{ttl} Request timed out...")
+
+        finally:
+            recv_socket.close()
+            send_socket.close()
+
 
 
 
 if __name__ == "__main__":
-    tracroute()
+    destination = input("Enter the IP address or domain name of the destination: ")
+    traceroute(destination)
