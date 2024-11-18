@@ -20,6 +20,7 @@ while ttl <= max_hops do while
 """
 
 
+
 import socket
 import struct
 import time
@@ -31,59 +32,76 @@ import sys
 
 
 def traceroute(destination, max_hops=5, timeout=5, log_file ="traceroute_outfile.txt"):
-    #destination = input("Enter the IP address or domain name of the destination: ")
-    #traceroute(destination)
-
-    # hops
-    hops = []
-    ttl = 5
-    
-
-    #get ip
+    # get the destination IP address
     dest_ip = socket.gethostbyname(destination)
+    print(f"Traceroute to {destination} ({dest_ip}), max {max_hops} hops.")
+    
+    # Open the log file
     with open(log_file, "w") as file:
-        start_msg = print(f"Traceroute to {destination} ({dest_ip}), max {max_hops} hops:")    
-        print(start_msg)
-        file.write(start_msg)
+        # Header for the log file
+        header = (f"Traceroute to {destination} ({dest_ip}), max {max_hops} hops: \n")
+        file.write(header)
+
+        # hops
+        hops = []
+        ttl = 1
 
 
+        while ttl <= max_hops:
 
-    while ttl <= max_hops:
+            start_time = time.time() # idk where to put this
 
-        # create send/recieve socket
-        recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
-        send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+            # create send/recieve socket
+            recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
+            send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
-        # Set the ttl of the socket/options?????
-        send_socket.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
-        recv_socket.settimeout(timeout)
+            # Set the ttl for out
+            send_socket.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
+            recv_socket.settimeout(timeout)
 
-        # send packet
-        print(f"Sending packet with TTL = {ttl}...")
-        start_time = time.time()
-        send_socket.sendto(b'', (dest_ip, 33434,)) # port is common??????
+            # send packet
+            print(f"Sending packet with TTL = {ttl}...")
+            send_socket.sendto(b'', (dest_ip, 33434))
 
 
         # try recieve
-        try:
-            data, addr = recv_socket.recvfrom(512)
-            end_time = time.time()
-            rtt = round((end_time - start_time) * 1000, 2) # rount trip time????
-            print(f"{ttl}\t{addr[0]}\t{rtt} ms")
-            hops.append(addr[0])
+            try:
+                data, addr = recv_socket.recvfrom(512)
+                end_time = time.time()
+                rtt = round((end_time - start_time) * 1000, 2) # rount trip time
+                
 
-            # Check if we reached the destination
-            if addr[0] == dest_ip:
-                print("Reached destination...")
-                break
+                # print and log the hop information
+                hop_info = (f"{ttl}\t{addr[0]}\t{rtt} ms\n")
+                print(hop_info.strip())
+                file.write(hop_info)
 
-        except socket.timeout:
-            print(f"{ttl} Request timed out...")
+                hops.append(addr[0])
 
-        finally:
-            recv_socket.close()
-            send_socket.close()
+                # check for destination (also to end the try statement)
+                if addr[0] == dest_ip:
+                    print("Reached!")
+                    file.write('Reached destination.\n')
+                    break
 
+            except socket.timeout:
+                # Timeouts
+                timeout_msg = (f"{ttl}\tRequest time out... \n")
+                print(timeout_msg.strip())
+                file.write(timeout_msg)
+            
+            finally:
+                # clean the sockets
+                recv_socket.close()
+                send_socket.close()
+
+            # Inciment for the next jump...
+            ttl += 1
+
+        # print the completion messg
+        completion_msg = ("\nTraceroute complete.\n")
+        print(completion_msg.strip())
+        file.write(completion_msg)
 
 
 
