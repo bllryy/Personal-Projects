@@ -29,6 +29,8 @@ import argparse
 import string
 import sys
 import geopy
+import requests
+import folium
 
 
 
@@ -104,6 +106,33 @@ def traceroute(destination, max_hops=5, timeout=5, log_file ="traceroute_outfile
         print(completion_msg.strip())
         file.write(completion_msg)
 
+def geolocate(ip):
+    # ex using ipinfo.io
+    url = f"https://ipinfo.io/{ip}/json" # change ip to what ever
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        loc = data.get("loc", None) # loc returns "lat and long"
+        if loc:
+            lat, lan = map(float, loc.split(','))
+            return lat, lan
+        return None, None
+
+def plot_hops(hops): # again change when ready
+    # create a map centered at the first hop
+    base_map = folium.Map(location=hops[0], zoom_start=4)
+
+    # add markers for each loop
+    for index, (lat, lon) in enumerate(hops, start=1)
+        if lat and lan:
+            folium.Marker(
+                location=(lat, lan),
+                poput=f"Hop {index}"
+                icon = folium.Icon(color="blue", icon="info-sign")
+            ).add_to(base_map)
+
+        # save to a html
+        base_map.save('tracdroute_map.html')
 
 
 if __name__ == "__main__":
