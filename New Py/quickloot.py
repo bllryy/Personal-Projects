@@ -4,7 +4,7 @@ import time
 
 def setup_safety():
     pyautogui.FAILSAFE = True  # Move mouse to corner to stop script
-    pyautogui.PAUSE = 0.02     # Minimal delay between actions
+    pyautogui.PAUSE = 0.05     # Minimal delay between actions
 
 def perform_action():
     # Hold Shift
@@ -30,8 +30,9 @@ def perform_action():
     keyboard.release('shift')
 
 
-    keyboard.press('shift')
+    #keyboard.press('shift')
     pyautogui.click(button='right')
+    keyboard.press('shift')
     keyboard.release('shift')
 
     # Small delay to prevent repeated triggers too quickly
