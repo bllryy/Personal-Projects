@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Driver {
 
   public static void main(String[] args) {
-    System.out.println("How much can you spend? ")
+    System.out.println("How much can you spend? ");
     Scanner scan = new Scanner(System.in);
     double total = scan.nextDouble();
     double sum = 0; // total proportions entered by the user
@@ -23,11 +23,16 @@ public class Driver {
     } while (sum <= 100);
     scan.close();
     if (sum > 100) {
-      double cummulative = 0.0;
-      for (int j = 0;) // -1 so we dont fall off or go to the end of a arr
-
+      double cummulativeSum = 0.0;
+      for (int j = 0; j < proportion.size() - 1; j++); { // -1 so we dont fall off or go to the end of a arr // find out the cumulative sum of the expense proportions iunput by the user
+        cummulativeSum += proportion.get(i);
     }
-
-
+    proportion.set(proportion.size() - 1, 100.0 - cummulativeSum);
   }
+  // calculate the proportion
+  for (double value : proportion) {
+    double expense = value * total / 100.0; // value is the proportion stored in the arr list
+    System.out.println("Your " + value + "% equals $" + expense);
+  }
+}
 }
